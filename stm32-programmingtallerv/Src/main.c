@@ -43,6 +43,10 @@ int main(void)
 	dummy_16bit = 12345;
 	dummy_32bit = 123678;
 
+	dummy_16bit_dec = 32;
+	dummy_16bit-bin = 0b100000;
+	dummy_16bit_hex = 0x20;
+
 
 
 
