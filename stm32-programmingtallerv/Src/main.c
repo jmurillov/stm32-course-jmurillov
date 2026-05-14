@@ -23,130 +23,32 @@
 #endif
 
 
-#include <stdint.h>
+/*definicion de variables del sistema*/
 
-uint8_t numero1 = 0;
-uint8_t numero2 = 0;
-uint8_t numero3 = 0;
-uint8_t numero4 = 0;
-uint8_t optionCalc = 0;
-uint8_t resultado1 = 0;
-uint8_t resultado2 = 0;
-uint8_t resultado3 = 0;
-uint8_t resultado4 = 0;
-uint8_t resultado5 = 0;
+uint8_t dummy_8bit = 0;
+uint16_t dummy_16bit = 0;
+uint32_t dummy_32bit = 0;
 
-enum {
-	suma = 0,
-	resta = 1,
-	multiplicacion = 2,
-	division,
-	modulo
-};
+uint16_t dummy_16bit_dec = 0;
+uint16_t dummy_16bit_bin = 0;
+uint16_t dummy_16bit_hex = 0;
 
-void FuncionCalcular (void);
-void FuncionCalcular1 (uint8_t x, uint8_t y, uint8_t r);
-uint8_t FuncionCalcular2 (void);
-uint8_t FuncionCalcular3 (uint8_t x, uint8_t y, uint8_t r);
 
-void Suma(uint8_t x, uint8_t y);
-void Resta(uint8_t x, uint8_t y);
-void Multiplicacion(uint8_t x, uint8_t y);
-void Division(uint8_t x, uint8_t y);
-void Modulo(uint8_t x, uint8_t y);
+
+
 
 int main(void)
 {
-	numero1 = 10;
-	numero2 = 250;
-	numero3 = 300;
-	numero4 = 15;
-	while(1){
-
-		optionCalc ++;
-		FuncionCalcular();
-		numero1 ++;
-		numero2 --;
-		numero3 = numero2 + numero1;
-		numero4 |= numero3;
-		numero1 &= 1;
+	dummy_8bit = 123;
+	dummy_16bit = 12345;
+	dummy_32bit = 123678;
 
 
-	}
+
+
+    /* Loop forever */
+	while(1) {
+    }
+	return 0;
 }
-
-void FuncionCalcular (void){
-
-	switch(optionCalc){
-	case suma:{
-		Suma(numero1,numero2);
-		break;
-	}
-	case resta:{
-		Resta(numero1,numero3);
-		break;
-	}
-	case multiplicacion:{
-		Multiplicacion(numero1,numero4);
-		break;
-	}
-	case division:{
-		Division(numero3,numero2);
-		break;
-	}
-	case modulo:{
-		Modulo(numero4,numero3);
-		break;
-	}
-	}
-
-}
-
-
-void Suma(uint8_t x, uint8_t y){
-	resultado1 = x + y;
-}
-void Resta(uint8_t x, uint8_t y){
-	resultado2 = x - y;
-}
-void Multiplicacion(uint8_t x, uint8_t y){
-	resultado3 = x * y;
-}
-void Division(uint8_t x, uint8_t y){
-	resultado4 = x/y;
-}
-void Modulo(uint8_t x, uint_t y){
-	resultado5 = x%y;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
