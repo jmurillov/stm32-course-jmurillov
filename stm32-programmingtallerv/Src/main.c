@@ -17,6 +17,7 @@
  */
 
 #include <stdint.h>
+#include <stm32f4xx.h>
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
@@ -25,64 +26,21 @@
 
 /*definicion de variables del sistema*/
 
-uint8_t dummy_8bit = 0;
-uint16_t dummy_16bit = 0;
-uint32_t dummy_32bit = 0;
-
-uint16_t dummy_16bit_dec = 0;
-uint16_t dummy_16bit_bin = 0;
-uint16_t dummy_16bit_hex = 0;
-uint8_t index_8bit = 0;
-uint8_t resultado = 0;
-
+uint8_t result;
 
 
 
 int main(void)
 {
-	dummy_8bit = 123;
-	dummy_16bit = 12345;
-	dummy_32bit = 123678;
 
-	dummy_16bit_dec = 32;
-	dummy_16bit_bin = 0b100000;
-	dummy_16bit_hex = 0x20;
-
-	if (dummy_8bit == 5) {
-		dummy_16bit = 50;
+	result = 0x0F + ox01;
+	result = 0xFF + ox01;
+	result = 0xA0 + ox5F;
+	result = 0xA0 + ox60;
 
 
-	}
-
-	for (index_8bit = 0; index_8bit < 15; index_8bit ++){
 
 
-	}
-
-	while (resultado){
-		for (dummy_8bit = 0; dummy_8bit < 10; dummy_8bit++){
-			if (dummy_8bit == 5){
-				resultado--;
-			}
-
-		}
-
-	}
-
-
-	switch (index_8bit){ // es bueno para no usar casos anidados como usar muchos if-else varias veces.
-	case 1:
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	default:
-
-		break;
-
-
-	}
 
 
 
