@@ -35,6 +35,10 @@ uint16_t dummy_16bit_hex = 0;
 uint8_t index_8bit = 0;
 uint8_t resultado = 0;
 
+uint8_t indexa;
+int8_t saafafafaf;
+
+
 
 
 
@@ -83,8 +87,6 @@ int main(void)
 
 
 	}
-
-
 
 
 
