@@ -39,10 +39,6 @@ uint8_t resultado = 0;
 uint8_t indexa;
 int8_t saafafafaf;
 
-
-
-
-
 int main(void)
 {
 	dummy_8bit = 123;
@@ -108,8 +104,12 @@ int main(void)
 
 		break;
 
-
 	}
+
+
+
+
+
 
 
 
