@@ -17,6 +17,7 @@
  */
 
 #include <stdint.h>
+#include <stm32f4xx.h>
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
@@ -51,6 +52,28 @@ int main(void)
 	dummy_16bit_dec = 32;
 	dummy_16bit_bin = 0b100000;
 	dummy_16bit_hex = 0x20;
+
+	//RCC->AHB1ENR |= (1 << 0);
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+
+	/*Configuramos el pin A5 como salida*/
+	GPIOA->MODER |= (0b01 << GPIO_MODER_MODE5_Pos);
+
+	/*Configuramos el pin 5 como salida push-pull*/
+	GPIOA->OTYPER &= ~(GPIO_OTYPER_OT5);
+
+	/**/
+	GPIOA->OSPEEDR &= ~(0b11 << GPIO_OSPEEDR_OSPEED5_Pos);
+	/**/
+	GPIOA->OSPEEDR |= ~(0b10 << GPIO_OSPEEDR_OSPEED5_Pos);
+
+
+	/*Escribir 1 en la posicion 5 -> encender el LED2 (verde)*/
+	GPIOA->ODR |= (GPIO_ODR_OD5);
+
+
+
+
 
 	if (dummy_8bit == 5) {
 		dummy_16bit = 50;
