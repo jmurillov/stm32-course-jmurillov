@@ -32,7 +32,8 @@ uint32_t dummy_32bit = 0;
 uint16_t dummy_16bit_dec = 0;
 uint16_t dummy_16bit_bin = 0;
 uint16_t dummy_16bit_hex = 0;
-
+uint8_t index_8bit = 0;
+uint8_t resultado = 0;
 
 
 
@@ -47,6 +48,43 @@ int main(void)
 	dummy_16bit_bin = 0b100000;
 	dummy_16bit_hex = 0x20;
 
+	if (dummy_8bit == 5) {
+		dummy_16bit = 50;
+
+
+	}
+
+	for (index_8bit = 0; index_8bit < 15; index_8bit ++){
+
+
+	}
+
+	while (resultado){
+		for (dummy_8bit = 0; dummy_8bit < 10; dummy_8bit++){
+			if (dummy_8bit == 5){
+				resultado--;
+			}
+
+		}
+
+	}
+
+
+	switch (index_8bit){ // es bueno para no usar casos anidados como usar muchos if-else varias veces.
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	default:
+
+		break;
+
+
+	}
+
+
 
 
 
@@ -55,4 +93,31 @@ int main(void)
     }
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
