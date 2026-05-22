@@ -17,7 +17,6 @@
  */
 
 #include <stdint.h>
-#include <stm32f4xx.h>
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
@@ -25,25 +24,20 @@
 
 
 /*definicion de variables del sistema*/
-
-uint8_t result;
+uint8_t a = 5;
+uint8_t b = 0;
+uint8_t c = 255;
 
 
 
 int main(void)
 {
 
-	result = 0x0F + ox01;
-	result = 0xFF + ox01;
-	result = 0xA0 + ox5F;
-	result = 0xA0 + ox60;
-
-
-
-
-
-
-
+	uint8_t r1 = !a;
+	uint8_t r2 = !b;
+	uint8_t r3 = !c;
+	uint8_t r4 = ~c;
+	uint8_t r5 = ~a;
 
 
     /* Loop forever */
