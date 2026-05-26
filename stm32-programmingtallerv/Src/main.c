@@ -25,6 +25,7 @@
 
 
 /*definicion de variables del sistema*/
+<<<<<<< HEAD
 
 uint8_t dummy_8bit = 0;
 uint16_t dummy_16bit = 0;
@@ -108,7 +109,22 @@ int main(void)
 	}
 
 
+=======
+uint8_t a = 5;
+uint8_t b = 0;
+uint8_t c = 255;
 
+
+
+int main(void)
+{
+>>>>>>> week-01
+
+	uint8_t r1 = !a;
+	uint8_t r2 = !b;
+	uint8_t r3 = !c;
+	uint8_t r4 = ~c;
+	uint8_t r5 = ~a;
 
 
 
