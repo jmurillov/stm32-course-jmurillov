@@ -16,121 +16,86 @@
  ******************************************************************************
  */
 
+
 #include <stdint.h>
 #include <stm32f4xx.h>
 
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
-
-
-/*definicion de variables del sistema*/
-
-
-uint8_t dummy_8bit = 0;
-uint16_t dummy_16bit = 0;
-uint32_t dummy_32bit = 0;
-
-uint16_t dummy_16bit_dec = 0;
-uint16_t dummy_16bit_bin = 0;
-uint16_t dummy_16bit_hex = 0;
-uint8_t index_8bit = 0;
-uint8_t resultado = 0;
-
-uint8_t indexa;
-int8_t saafafafaf;
+/*variables*/
+uint32_t counter = 0;
 
 int main(void)
 {
-	dummy_8bit = 123;
-	dummy_16bit = 12345;
-	dummy_32bit = 123678;
-
-	dummy_16bit_dec = 32;
-	dummy_16bit_bin = 0b100000;
-	dummy_16bit_hex = 0x20;
-
-	//RCC->AHB1ENR |= (1 << 0);
+	/*Activando señal de reloj*/
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 
-	/*Configuramos el pin A5 como salida*/
-	GPIOA->MODER |= (0b01 << GPIO_MODER_MODE5_Pos);
-
+	/*limpiamos la posicion primero por posibles valores previos*/
+	GPIOA->MODER &= ~(0b01 << GPIO_MODER_MODE5_Pos);
+	/* configuramos el pin A5 como salida*/
+	GPIOA->MODER |= 0b01 << GPIO_MODER_MODE5_Pos;
 	/*Configuramos el pin 5 como salida push-pull*/
 	GPIOA->OTYPER &= ~(GPIO_OTYPER_OT5);
-
-	/**/
+	/*limpiamos*/
 	GPIOA->OSPEEDR &= ~(0b11 << GPIO_OSPEEDR_OSPEED5_Pos);
-	/**/
-	GPIOA->OSPEEDR |= ~(0b10 << GPIO_OSPEEDR_OSPEED5_Pos);
+	/*configuramos la velocidad como fast*/
+	GPIOA->OSPEEDR |= (0b10 << GPIO_OSPEEDR_OSPEED5_Pos);
+	/*Configurando el TIMR3*/
+	/*Limpiamos la posicion TIM3EN*/
+	RCC->APB1ENR &= ~(RCC_APB1ENR_TIM3EN);
+
+	/*Activamos la señal de reloj para el TIM3*/
+	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+
+	/*Para generar una señal de 250 ms*/
+	TIM3->ARR = 249;
+
+	/*La señal incrementa el CNT es de 1Kz*/
+	TIM3->PSC = 15999;
+
+	/*Reiniciamos el CNT (aunque no es necesario) ya que cuenta hacia adelante inicalmente.*/
+	TIM3->CNT = 0;
+
+	/*COnfiguramos para que el TIM3 cuente de forma ascendente*/
+	TIM3->CR1 &= ~(TIM_CR1_DIR);
+
+	/*Limpiamos la posicion ARPE para tenerla en una posicion conocida*/
+	TIM3->CR1 &= ~(TIM_CR1_ARPE);
+
+	/*Activamos la interrupcion de actualizacion del TIM3*/
+	TIM3->CR1 |= TIM_CR1_ARPE;
 
 
-	/*Escribir 1 en la posicion 5 -> encender el LED2 (verde)*/
-	GPIOA->ODR |= (GPIO_ODR_OD5);
+	/*Estamos activando la IRQ del TIM3 para que el NVIC reciba señales de ella*/
+	__NVIC_EnableIRQ(TIM3_IRQn);
 
+	/*Limpiamos y dejamos en cero*/
+	TIM3->SR &= ~(TIM_SR_UIF);
 
+	/*lIMPIAMOS LA POSICION DEL UIF del registro para garantizar iun estado conocido*/
+	TIM3->DIER &= ~(TIM_DIER_UIE);
 
+	/*Activamos la interrupcion de actualizacion del TIM3*/
+	TIM3->DIER |= TIM_DIER_UIE;
 
+	/*Activamos */
+	TIM3->CR1 |= TIM_CR1_CEN;
 
-
-	if (dummy_8bit == 5) {
-		dummy_16bit = 50;
-
+	while(1){
 
 	}
 
-	for (index_8bit = 0; index_8bit < 15; index_8bit ++){
-
-
-	}
-
-	while (resultado){
-		for (dummy_8bit = 0; dummy_8bit < 10; dummy_8bit++){
-			if (dummy_8bit == 5){
-				resultado--;
-			}
-
-		}
-
-	}
-
-
-	switch (index_8bit){ // es bueno para no usar casos anidados como usar muchos if-else varias veces.
-	case 1:
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	default:
-
-		break;
-
-	}
 }
 
+/*ISR del TIM3*/
+void TIM3_IRQHandler(void){
 
+	/*Evaluamos so la flag UIF esta arriba*/
+	if(TIM3->SR && TIM_SR_UIF){
+		/*Toggle del LED*/
+		GPIOA->ODR ^= GPIO_ODR_OD5;
 
+		/*bajamos la bandera de la interrupcion del TIM3*/
+		TIM3->SR &= ~(TIM_SR_UIF);
 
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
