@@ -42,6 +42,10 @@ int main(void)
 	/*Limpiamos la posicion TIM3EN*/
 	RCC->APB1ENR &= ~(RCC_APB1ENR_TIM3EN);
 
+
+
+
+
 	/*Activamos la señal de reloj para el TIM3*/
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 
