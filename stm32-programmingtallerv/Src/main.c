@@ -21,7 +21,11 @@
 #include <stm32f4xx.h>
 
 /*variables*/
+
+volatile uint8_t  aumentar_Counter = 0;
 uint32_t counter = 0;
+
+
 typedef enum {
 	GREEN,
 	ORANGE,
@@ -77,6 +81,10 @@ int main(void)
 	/*Configuramos la velocidad como fast*/
 	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED7_1;
 
+	/*Configurando el pin C1 como entrada simple sin push-pull o pull-down*/
+	GPIOC->MODER &= ~GPIO_MODER_MODE1;
+	GPIOC->PUPDR &= ~GPIO_PUPDR_PUPD1;
+
 
 	/*Configurando el TIMR3*/
 	/*Limpiamos la posicion TIM3EN*/
@@ -118,7 +126,13 @@ int main(void)
 	/*Activamos */
 	TIM3->CR1 |= TIM_CR1_CEN;
 
+
 	while(1){
+
+		if (aumentar_Counter == 1){
+			counter = counter +10;
+			aumentar_Counter = 0;
+		}
 
 		switch(new_state)
 		{
@@ -171,3 +185,57 @@ void TIM3_IRQHandler(void){
 	}
 
 }
+
+void init_exti(void){
+
+	/*Encendiendo la señal de reloj para el SYSCFG (EXTI)*/
+	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+
+	/*Configuramos el canal del EXTI*/
+	SYSCFG->EXTICR[0] &= ~(SYSCFG_EXTICR1_EXTI1);
+	/*configurando el canal 1 del exti para el puerto C (pin C1)*/
+	SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI1_PC);
+
+	/*seleccionando flanco de subida pra ser detectado en el pin C1*/
+	EXTI->RTSR |= EXTI_RTSR_TR1;
+
+	/* Registrabndo en el NVIC la interrupcion EXTI1 para que sea atendida*/
+	NVIC_EnableIRQ(EXTI1_IRQn);
+
+
+
+	/* Activamos la interupcion*/
+	EXTI->IMR |= EXTI_IMR_IM1;
+
+}
+
+void EXTI1_IRQHandler(void){
+
+	if (EXTI->PR && EXTI_PR_PR1){
+		/** bajamos la bandera de la interrupcion*/
+		EXTI->PR |= EXTI_PR_PR1;
+		aumentar_Counter ++;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
