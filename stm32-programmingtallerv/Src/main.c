@@ -22,11 +22,21 @@
 
 /*variables*/
 uint32_t counter = 0;
+typedef enum {
+	GREEN,
+	ORANGE,
+	RED
+} EstadoSemaforo;
+
+EstadoSemaforo new_state = GREEN;
 
 int main(void)
 {
 	/*Activando señal de reloj*/
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+
+
+	/*Configurando el pin PA5 para que funcione como salida*/
 
 	/*limpiamos la posicion primero por posibles valores previos*/
 	GPIOA->MODER &= ~(0b01 << GPIO_MODER_MODE5_Pos);
@@ -34,23 +44,48 @@ int main(void)
 	GPIOA->MODER |= 0b01 << GPIO_MODER_MODE5_Pos;
 	/*Configuramos el pin 5 como salida push-pull*/
 	GPIOA->OTYPER &= ~(GPIO_OTYPER_OT5);
+
 	/*limpiamos*/
 	GPIOA->OSPEEDR &= ~(0b11 << GPIO_OSPEEDR_OSPEED5_Pos);
 	/*configuramos la velocidad como fast*/
 	GPIOA->OSPEEDR |= (0b10 << GPIO_OSPEEDR_OSPEED5_Pos);
+
+
+	/*Configurando el pin A6 para que funcione como salida*/
+
+	/*Limpiamos la posición 6 a un valor conocido*/
+	GPIOA->MODER &= ~ GPIO_MODER_MODE6_0;
+	/*Configuramos el pin A6 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE6_0;
+	/*Configuramos el pin A6 como salidad push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT6;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED6_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED6_1;
+
+	/*Configurando el pin A7 para que funcione como salida*/
+
+	/*Limpiamos la posición 7 a un valor conocido*/
+	GPIOA->MODER &= ~ GPIO_MODER_MODE7_0;
+	/*Configuramos el pin A7 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE7_0;
+	/*Configuramos el pin A7	 como salidad push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT7;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED7_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED7_1;
+
+
 	/*Configurando el TIMR3*/
 	/*Limpiamos la posicion TIM3EN*/
 	RCC->APB1ENR &= ~(RCC_APB1ENR_TIM3EN);
-
-
-
-
-
 	/*Activamos la señal de reloj para el TIM3*/
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 
 	/*Para generar una señal de 250 ms*/
-	TIM3->ARR = 249;
+	TIM3->ARR = 999;
 
 	/*La señal incrementa el CNT es de 1Kz*/
 	TIM3->PSC = 15999;
@@ -85,17 +120,50 @@ int main(void)
 
 	while(1){
 
-	}
+		switch(new_state)
+		{
+		case GREEN:
+			/*Toggle del LED PA5*/
+			GPIOA->ODR |= GPIO_ODR_OD5;
+			GPIOA->ODR &= ~(GPIO_ODR_OD6 | GPIO_ODR_OD7);
+			if (counter >= 5){
+				counter = 0;
+				new_state = ORANGE;
+			}
+			break;
 
+		case ORANGE:
+			/*Toggle del LED PA6*/
+			GPIOA->ODR |= GPIO_ODR_OD6;
+			GPIOA->ODR &= ~(GPIO_ODR_OD5 | GPIO_ODR_OD7);
+			if(counter >= 2){
+				counter = 0;
+				new_state = RED;
+			}
+			break;
+
+		case RED:
+			/*Toggle del LED PA7*/
+			GPIOA->ODR |= GPIO_ODR_OD7;
+			GPIOA->ODR &= ~(GPIO_ODR_OD6 | GPIO_ODR_OD5);
+			if(counter >= 5){
+				counter = 0;
+				new_state = GREEN;
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 /*ISR del TIM3*/
 void TIM3_IRQHandler(void){
-
 	/*Evaluamos so la flag UIF esta arriba*/
 	if(TIM3->SR && TIM_SR_UIF){
-		/*Toggle del LED*/
-		GPIOA->ODR ^= GPIO_ODR_OD5;
+		/*sumamos 1 seg en nuestro caso a counter cada vez que pasa la interrupcion*/
+		counter ++;
 
 		/*bajamos la bandera de la interrupcion del TIM3*/
 		TIM3->SR &= ~(TIM_SR_UIF);
