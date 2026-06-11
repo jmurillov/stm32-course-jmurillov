@@ -33,8 +33,10 @@ typedef enum {
 } EstadoSemaforo;
 
 EstadoSemaforo new_state = GREEN;
+int main(void){
 
-int clock(void){
+}
+void clock(void){
 
 	/*Activando señal de reloj PORTA*/
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
@@ -47,7 +49,7 @@ int clock(void){
 
 }
 
-int gpio(void)
+void gpio(void)
 {
 	/* CONFIGURACION DE PINES DE SALIDA */
 
