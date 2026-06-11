@@ -34,58 +34,214 @@ typedef enum {
 
 EstadoSemaforo new_state = GREEN;
 
-int main(void)
-{
-	/*Activando señal de reloj*/
+int clock(void){
+
+	/*Activando señal de reloj PORTA*/
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 
+	/*Activando señal de reloj PORTB*/
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
 
-	/*Configurando el pin PA5 para que funcione como salida*/
+	/*Activando señal de reloj PORTC*/
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 
-	/*limpiamos la posicion primero por posibles valores previos*/
-	GPIOA->MODER &= ~(0b01 << GPIO_MODER_MODE5_Pos);
-	/* configuramos el pin A5 como salida*/
-	GPIOA->MODER |= 0b01 << GPIO_MODER_MODE5_Pos;
-	/*Configuramos el pin 5 como salida push-pull*/
-	GPIOA->OTYPER &= ~(GPIO_OTYPER_OT5);
+}
 
+int gpio(void)
+{
+	/* CONFIGURACION DE PINES DE SALIDA */
+
+	/*Configurando el pin PA0*/
+
+	/*limpiamos la posicion por posibles valores previos*/
+	GPIOA->MODER &= ~GPIO_MODER_MODE0_0;
+	/* configuramos el pin A0 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE0_0;
+	/*Configuramos el pin 0 como salida push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT0;
 	/*limpiamos*/
-	GPIOA->OSPEEDR &= ~(0b11 << GPIO_OSPEEDR_OSPEED5_Pos);
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED0_0;
 	/*configuramos la velocidad como fast*/
-	GPIOA->OSPEEDR |= (0b10 << GPIO_OSPEEDR_OSPEED5_Pos);
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED0_1;
 
 
-	/*Configurando el pin A6 para que funcione como salida*/
+	/*Configurando el pin PA1*/
 
-	/*Limpiamos la posición 6 a un valor conocido*/
-	GPIOA->MODER &= ~ GPIO_MODER_MODE6_0;
-	/*Configuramos el pin A6 como salida*/
-	GPIOA->MODER |= GPIO_MODER_MODE6_0;
-	/*Configuramos el pin A6 como salidad push-pull*/
-	GPIOA->OTYPER &= ~GPIO_OTYPER_OT6;
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOA->MODER &= ~ GPIO_MODER_MODE1_0;
+	/*Configuramos el pin A1 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE1_0;
+	/*Configuramos el pin A1 como salidad push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT1;
 	/*Limpiamos a un valor conocido al ospeedr*/
-	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED6_0;
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED1_0;
 	/*Configuramos la velocidad como fast*/
-	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED6_1;
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED1_1;
 
-	/*Configurando el pin A7 para que funcione como salida*/
+	/*Configurando el pin PA2*/
 
-	/*Limpiamos la posición 7 a un valor conocido*/
-	GPIOA->MODER &= ~ GPIO_MODER_MODE7_0;
-	/*Configuramos el pin A7 como salida*/
-	GPIOA->MODER |= GPIO_MODER_MODE7_0;
-	/*Configuramos el pin A7	 como salidad push-pull*/
-	GPIOA->OTYPER &= ~GPIO_OTYPER_OT7;
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOA->MODER &= ~ GPIO_MODER_MODE2_0;
+	/*Configuramos el pin A2 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE2_0;
+	/*Configuramos el pin A2 como salidad push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT2;
 	/*Limpiamos a un valor conocido al ospeedr*/
-	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED7_0;
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED2_0;
 	/*Configuramos la velocidad como fast*/
-	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED7_1;
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED2_1;
 
-	/*Configurando el pin C1 como entrada simple sin push-pull o pull-down*/
-	GPIOC->MODER &= ~GPIO_MODER_MODE1;
-	GPIOC->PUPDR &= ~GPIO_PUPDR_PUPD1;
+	/*Configurando el pin PA3*/
+
+	/*limpiamos la posicion a un valor conocido*/
+	GPIOA->MODER &= ~GPIO_MODER_MODE3_0;
+	/* configuramos el pin A3 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE3_0;
+	/*Configuramos el pin 3 como salida push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT3;
+	/*limpiamos*/
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED3_0;
+	/*configuramos la velocidad como fast*/
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED3_1;
 
 
+	/*Configurando el pin PA4*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOA->MODER &= ~ GPIO_MODER_MODE4_0;
+	/*Configuramos el pin A4 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE4_0;
+	/*Configuramos el pin A4 como salidad push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT4;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED4_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED4_1;
+
+	/*Configurando el pin PA8*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOA->MODER &= ~ GPIO_MODER_MODE8_0;
+	/*Configuramos el pin A8 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE8_0;
+	/*Configuramos el pin A8 como salidad push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT8;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED8_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED8_1;
+
+	/*Configurando el pin PA10*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOA->MODER &= ~ GPIO_MODER_MODE10_0;
+	/*Configuramos el pin A10 como salida*/
+	GPIOA->MODER |= GPIO_MODER_MODE10_0;
+	/*Configuramos el pin A10 como salidad push-pull*/
+	GPIOA->OTYPER &= ~GPIO_OTYPER_OT10;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOA->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED10_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOA->OSPEEDR |= GPIO_OSPEEDR_OSPEED10_1;
+
+
+
+	/*Configurando el pin PB0*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOB->MODER &= ~ GPIO_MODER_MODE0_0;
+	/*Configuramos el pin B0 como salida*/
+	GPIOB->MODER |= GPIO_MODER_MODE0_0;
+	/*Configuramos el pin B0 como salidad push-pull*/
+	GPIOB->OTYPER &= ~GPIO_OTYPER_OT0;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOB->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED0_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOB->OSPEEDR |= GPIO_OSPEEDR_OSPEED0_1;
+
+	/*Configurando el pin PB3*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOB->MODER &= ~ GPIO_MODER_MODE3_0;
+	/*Configuramos el pin B3 como salida*/
+	GPIOB->MODER |= GPIO_MODER_MODE3_0;
+	/*Configuramos el pin B3 como salidad push-pull*/
+	GPIOB->OTYPER &= ~GPIO_OTYPER_OT3;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOB->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED3_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOB->OSPEEDR |= GPIO_OSPEEDR_OSPEED3_1;
+
+	/*Configurando el pin PB4*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOB->MODER &= ~ GPIO_MODER_MODE4_0;
+	/*Configuramos el pin B4 como salida*/
+	GPIOB->MODER |= GPIO_MODER_MODE4_0;
+	/*Configuramos el pin B4 como salidad push-pull*/
+	GPIOB->OTYPER &= ~GPIO_OTYPER_OT4;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOB->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED4_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOB->OSPEEDR |= GPIO_OSPEEDR_OSPEED4_1;
+
+	/*Configurando el pin PB5*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOB->MODER &= ~ GPIO_MODER_MODE5_0;
+	/*Configuramos el pin B5 como salida*/
+	GPIOB->MODER |= GPIO_MODER_MODE5_0;
+	/*Configuramos el pin B5 como salidad push-pull*/
+	GPIOB->OTYPER &= ~GPIO_OTYPER_OT5;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOB->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED5_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOB->OSPEEDR |= GPIO_OSPEEDR_OSPEED5_1;
+
+	/*Configurando el pin PB10*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOB->MODER &= ~ GPIO_MODER_MODE10_0;
+	/*Configuramos el pin B10 como salida*/
+	GPIOB->MODER |= GPIO_MODER_MODE10_0;
+	/*Configuramos el pin B10 como salidad push-pull*/
+	GPIOB->OTYPER &= ~GPIO_OTYPER_OT10;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOB->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED10_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOB->OSPEEDR |= GPIO_OSPEEDR_OSPEED10_1;
+
+
+	/*Configurando el pin PC0*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOC->MODER &= ~ GPIO_MODER_MODE0_0;
+	/*Configuramos el pin C0 como salida*/
+	GPIOC->MODER |= GPIO_MODER_MODE0_0;
+	/*Configuramos el pin C0 como salidad push-pull*/
+	GPIOC->OTYPER &= ~GPIO_OTYPER_OT0;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOC->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED0_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOC->OSPEEDR |= GPIO_OSPEEDR_OSPEED0_1;
+
+	/*Configurando el pin PC1*/
+
+	/*Limpiamos la posición a un valor conocido*/
+	GPIOC->MODER &= ~ GPIO_MODER_MODE1_0;
+	/*Configuramos el pin C1 como salida*/
+	GPIOC->MODER |= GPIO_MODER_MODE1_0;
+	/*Configuramos el pin C1 como salidad push-pull*/
+	GPIOC->OTYPER &= ~GPIO_OTYPER_OT1;
+	/*Limpiamos a un valor conocido al ospeedr*/
+	GPIOC->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED1_0;
+	/*Configuramos la velocidad como fast*/
+	GPIOC->OSPEEDR |= GPIO_OSPEEDR_OSPEED1_1;
+
+}
+
+void timer(void)
+{
 	/*Configurando el TIMR3*/
 	/*Limpiamos la posicion TIM3EN*/
 	RCC->APB1ENR &= ~(RCC_APB1ENR_TIM3EN);
@@ -110,7 +266,6 @@ int main(void)
 	/*Activamos la interrupcion de actualizacion del TIM3*/
 	TIM3->CR1 |= TIM_CR1_ARPE;
 
-
 	/*Estamos activando la IRQ del TIM3 para que el NVIC reciba señales de ella*/
 	__NVIC_EnableIRQ(TIM3_IRQn);
 
@@ -125,6 +280,52 @@ int main(void)
 
 	/*Activamos */
 	TIM3->CR1 |= TIM_CR1_CEN;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Configurando el pin C1 como entrada simple sin push-pull o pull-down*/
+	GPIOC->MODER &= ~GPIO_MODER_MODE1;
+	GPIOC->PUPDR &= ~GPIO_PUPDR_PUPD1;
+
+
 
 
 	while(1){
@@ -217,25 +418,3 @@ void EXTI1_IRQHandler(void){
 		aumentar_Counter ++;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
